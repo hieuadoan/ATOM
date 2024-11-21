@@ -11,7 +11,7 @@ ATOM is a platform for accelerating materials discovery through AI, ML, and quan
   - Integration with first-principles simulations.
 
 ## Project Structure
-
+```
 ATOM/
 ├── README.md                # Project overview and instructions
 ├── LICENSE                  # Project license
@@ -23,7 +23,7 @@ ATOM/
 │   ├── src/
 │   │   └── App.js           # Main React component
 └── tests/                   # Test folder (unit tests for backend and frontend)
-
+```
 ## Setup Instructions
 ### Backend
 1. Install Python dependencies:
