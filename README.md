@@ -10,6 +10,17 @@ ATOM is a platform for accelerating materials discovery through AI, ML, and quan
   - Machine learning model training and evaluation.
   - Integration with first-principles simulations.
 
+## Tools and Technologies Used
+ATOM leverages the following tools and frameworks for its development:
+- **Backend**: Flask (Python) for creating scalable REST APIs.
+- **Frontend**: React (JavaScript) for building a responsive and dynamic user interface.
+- **Machine Learning**: PyTorch for implementing and training advanced ML models, including Graph Neural Networks.
+- **First-Principles Simulations**: PySCF and ORCA for quantum chemistry calculations.
+- **Visualization**: Plotly and 3Dmol.js for interactive plots and molecular structure visualization.
+- **Database**: PostgreSQL for structured data storage and management.
+- **Optimization**: Scikit-learn for Bayesian optimization workflows.
+- **Deployment**: Docker for containerization and cloud deployment.
+
 ## Project Structure
 ```
 ATOM/
