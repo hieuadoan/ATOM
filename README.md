@@ -10,6 +10,8 @@ ATOM is a platform for accelerating materials discovery through AI, ML, and quan
   - Machine learning model training and evaluation.
   - Integration with first-principles simulations.
 
+## Project Structure
+
 ATOM/
 ├── README.md                # Project overview and instructions
 ├── LICENSE                  # Project license
