@@ -2,10 +2,13 @@
 
 ATOM is a platform for accelerating materials discovery through AI, ML, and quantum simulations.
 
-## Features
-- Data upload and exploration
-- Machine learning model training and evaluation
-- Integration with first-principles simulations
+## Key Features
+- **Agentic AI**: Automates decision-making for data exploration, model selection, and workflow optimization.
+- **LLM Integration**: Provides contextual explanations for datasets, ML results, and simulation outputs.
+- **Core Tools**:
+  - Data upload and exploration.
+  - Machine learning model training and evaluation.
+  - Integration with first-principles simulations.
 
 ## Setup Instructions
 ### Backend
@@ -19,7 +22,7 @@ python app/main.py
 ```
 ### Frontend
 1. Navigate to the 'frontend' directory and start the React app:
-`npm start'
+```npm start```
 
 ## TODOs
 - [ ] Add database schema
