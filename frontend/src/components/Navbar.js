@@ -7,7 +7,7 @@ function Navbar() {
             <div className="container-fluid">
                 {/* Navbar brand */}
                 <a className="navbar-brand" href="/">
-                    ATOM
+                    ATOM: AI-driven Tools for Optmizing Materials
                 </a>
 
                 {/* Toggle button */}
@@ -25,8 +25,8 @@ function Navbar() {
 
                 {/* Collapsible wrapper */}
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    {/* Left links */}
-                    <ul className="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
+                    {/* Center links */}
+                    <ul className="navbar-nav mx-auto d-flex flex-row justify-content-center"> 
                         <li className="nav-item text-center mx-2 mx-lg-1">
                             <a className="nav-link active" aria-current="page" href="/">
                                 <div>
@@ -38,7 +38,7 @@ function Navbar() {
                         <li className="nav-item text-center mx-2 mx-lg-1">
                             <a className="nav-link" href="/simulations">
                                 <div>
-                                    <i className="fas fa-flask fa-lg mb-1"></i>
+                                    <i className="fas fa-atom fa-lg mb-1"></i>
                                 </div>
                                 Simulations
                             </a>
@@ -60,7 +60,7 @@ function Navbar() {
                             </a>
                         </li>
                     </ul>
-                    {/* Left links */}
+                    {/* Center links */}
 
                     {/* Right links */}
                     {/*<ul className="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
