@@ -1,4 +1,4 @@
-# ATOM: Automated Tools for Optimizing Materials
+# ATOM: AI-driven Tools for Optimizing Materials
 
 ATOM is a platform for accelerating materials discovery through AI, ML, and quantum simulations.
 
