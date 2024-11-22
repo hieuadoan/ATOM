@@ -1,31 +1,27 @@
-/**
- * App.js
- * Main React component for the ATOM platform.
- */
-
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Dashboard from './pages/Dashboard';
+import Simulations from './pages/Simulations';
+import MLmodels from './pages/MLmodels';
+import Datasets from './pages/Datasets';
 
 function App() {
-    const [message, setMessage] = useState("");
-
-    // Fetch data from the Flask backend
-    const fetchMessage = async () => {
-        const response = await fetch('http://127.0.0.1:5000/');
-        const data = await response.json();
-        setMessage(`${data.message} - ${data.description}`);
-    };
-
     return (
-        <div>
-            <header>
-                <h1>ATOM Dashboard</h1>
-            </header>
+        <Router>
+            {/* Navbar is always visible */}
+            <Navbar />
             <main>
-                <button onClick={fetchMessage}>Fetch API Message</button>
-                <p>{message}</p>
+                <Routes>
+                    <Route path="/" element={<Dashboard />} /> {/* Main page */}
+                    <Route path="/simulations" element={<Simulations />} />
+                    <Route path="/mlmodels" element={<MLmodels />} />
+                    <Route path="/datasets" element={<Datasets />} />
+                </Routes>
             </main>
-        </div>
+        </Router>
     );
 }
 
 export default App;
+
