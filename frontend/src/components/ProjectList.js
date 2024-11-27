@@ -9,6 +9,7 @@ function ProjectList() {
     });
 
     const [newProject, setNewProject] = useState({ name: "", description: "" });
+    const [sortCriterion, setSortCriterion] = useState("date"); // Default sorting by date
 
     // Save projects to localStorage whenever they change
     useEffect(() => {
@@ -52,9 +53,51 @@ function ProjectList() {
         setProjects(updatedProjects);
     };
 
+    // Sort projects based on the selected criterion
+    const sortProjects = (criterion) => {
+        const sortedProjects = [...projects].sort((a, b) => {
+            if (criterion === "name") {
+                return a.name.localeCompare(b.name);
+            }
+            if (criterion === "date") {
+                return new Date(a.dateCreated) - new Date(b.dateCreated);
+            }
+            if (criterion === "status") {
+                const statusOrder = { "Active": 1, "On Hold": 2, "Completed": 3 };
+                return statusOrder[a.status] - statusOrder[b.status];
+            }
+            return 0;
+        });
+
+        setProjects(sortedProjects);
+        setSortCriterion(criterion); // Save the current sorting criterion
+    };
+
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Projects</h2>
+
+            {/* Sorting Buttons */}
+            <div className="mb-3 d-flex">
+                <button
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "name" ? "active" : ""}`}
+                    onClick={() => sortProjects("name")}
+                >
+                    Sort by Name
+                </button>
+                <button
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "date" ? "active" : ""}`}
+                    onClick={() => sortProjects("date")}
+                >
+                    Sort by Date
+                </button>
+                <button
+                    className={`btn btn-outline-primary ${sortCriterion === "status" ? "active" : ""}`}
+                    onClick={() => sortProjects("status")}
+                >
+                    Sort by Status
+                </button>
+            </div>
 
             {/* Create New Project Form */}
             <form onSubmit={handleCreateProject} className="mb-4">
