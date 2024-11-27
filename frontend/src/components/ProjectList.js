@@ -10,6 +10,7 @@ function ProjectList() {
 
     const [newProject, setNewProject] = useState({ name: "", description: "" });
     const [sortCriterion, setSortCriterion] = useState("date"); // Default sorting by date
+    const [filterCriterion, setFilterCriterion] = useState("All"); // Default filter to show all projects
 
     // Save projects to localStorage whenever they change
     useEffect(() => {
@@ -73,11 +74,17 @@ function ProjectList() {
         setSortCriterion(criterion); // Save the current sorting criterion
     };
 
+    // Filter projects based on the selected criterion
+    const filteredProjects = projects.filter((project) => {
+        if (filterCriterion === "All") return true;
+        return project.status === filterCriterion;
+    });
+
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Projects</h2>
 
-            {/* Sorting Buttons */}
+            {/* Sorting and Filtering Controls */}
             <div className="mb-3 d-flex">
                 <button
                     className={`btn btn-outline-primary me-2 ${sortCriterion === "name" ? "active" : ""}`}
@@ -92,11 +99,22 @@ function ProjectList() {
                     Sort by Date
                 </button>
                 <button
-                    className={`btn btn-outline-primary ${sortCriterion === "status" ? "active" : ""}`}
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "status" ? "active" : ""}`}
                     onClick={() => sortProjects("status")}
                 >
                     Sort by Status
                 </button>
+
+                <select
+                    className="form-select w-auto"
+                    value={filterCriterion}
+                    onChange={(e) => setFilterCriterion(e.target.value)}
+                >
+                    <option value="All">Show All</option>
+                    <option value="Active">Active</option>
+                    <option value="Completed">Completed</option>
+                    <option value="On Hold">On Hold</option>
+                </select>
             </div>
 
             {/* Create New Project Form */}
@@ -129,11 +147,11 @@ function ProjectList() {
             </form>
 
             {/* List of Projects */}
-            {projects.length === 0 ? (
-                <p className="text-muted">No projects found. Create a new project to get started!</p>
+            {filteredProjects.length === 0 ? (
+                <p className="text-muted">No projects match the filter criteria.</p>
             ) : (
                 <ul className="list-group">
-                    {projects.map((project) => (
+                    {filteredProjects.map((project) => (
                         <li key={project.id} className="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <h5>{project.name}</h5>
