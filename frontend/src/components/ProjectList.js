@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/ProjectList.css'; // Add styles for the form and project list
 
 function ProjectList() {
-    const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState(() => {
+        // Load projects from localStorage on initial render
+        const savedProjects = localStorage.getItem("projects");
+        return savedProjects ? JSON.parse(savedProjects) : [];
+    });
     const [newProject, setNewProject] = useState({ name: "", description: "" });
+
+    useEffect(() => {
+        // Save projects to localStorage whenever they change
+        localStorage.setItem("projects", JSON.stringify(projects));
+    }, [projects]);
 
     // Handle form input changes
     const handleInputChange = (e) => {
@@ -15,7 +24,6 @@ function ProjectList() {
     const handleCreateProject = (e) => {
         e.preventDefault();
 
-        // Add a new project to the list
         const newProjectData = {
             id: Date.now(), // Unique ID
             name: newProject.name,
