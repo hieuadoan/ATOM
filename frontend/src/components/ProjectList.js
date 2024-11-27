@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/ProjectList.css'; // Add styles for the form and project list
+import '../styles/ProjectList.css'; // Add styles if needed
 
 function ProjectList() {
+    // Load projects from localStorage or initialize as an empty array
     const [projects, setProjects] = useState(() => {
-        // Load projects from localStorage on initial render
         const savedProjects = localStorage.getItem("projects");
         return savedProjects ? JSON.parse(savedProjects) : [];
     });
+
     const [newProject, setNewProject] = useState({ name: "", description: "" });
 
+    // Save projects to localStorage whenever they change
     useEffect(() => {
-        // Save projects to localStorage whenever they change
         localStorage.setItem("projects", JSON.stringify(projects));
     }, [projects]);
 
@@ -30,62 +31,74 @@ function ProjectList() {
             description: newProject.description,
             dateCreated: new Date().toISOString().split('T')[0],
             status: "Active",
-            tasks: [],
         };
 
         setProjects([...projects, newProjectData]);
         setNewProject({ name: "", description: "" }); // Reset the form
     };
 
-    // Delete a project
+    // Delete a project with confirmation
     const deleteProject = (id) => {
-        setProjects(projects.filter((project) => project.id !== id));
+        if (window.confirm("Are you sure you want to delete this project?")) {
+            setProjects(projects.filter((project) => project.id !== id));
+        }
     };
 
     return (
-        <div className="project-list">
-            <h2>Projects</h2>
+        <div className="container mt-4">
+            <h2 className="mb-4">Projects</h2>
 
             {/* Create New Project Form */}
-            <form onSubmit={handleCreateProject} className="create-project-form">
-                <label>
-                    Name:
+            <form onSubmit={handleCreateProject} className="mb-4">
+                <div className="mb-3">
+                    <label className="form-label">Name:</label>
                     <input
                         type="text"
                         name="name"
                         value={newProject.name}
                         onChange={handleInputChange}
                         placeholder="Project Name"
+                        className="form-control"
                         required
                     />
-                </label>
-                <label>
-                    Description:
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Description:</label>
                     <textarea
                         name="description"
                         value={newProject.description}
                         onChange={handleInputChange}
                         placeholder="Project Description"
+                        className="form-control"
+                        rows="3"
                         required
                     />
-                </label>
-                <button type="submit">Create Project</button>
+                </div>
+                <button type="submit" className="btn btn-primary">Create Project</button>
             </form>
 
             {/* List of Projects */}
-            <ul>
-                {projects.map((project) => (
-                    <li key={project.id} className="project">
-                        <details>
-                            <summary>{project.name}</summary>
-                            <p><strong>Description:</strong> {project.description}</p>
-                            <p><strong>Date Created:</strong> {project.dateCreated}</p>
-                            <p><strong>Status:</strong> {project.status}</p>
-                            <button onClick={() => deleteProject(project.id)}>Delete Project</button>
-                        </details>
-                    </li>
-                ))}
-            </ul>
+            {projects.length === 0 ? (
+                <p className="text-muted">No projects found. Create a new project to get started!</p>
+            ) : (
+                <ul className="list-group">
+                    {projects.map((project) => (
+                        <li key={project.id} className="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5>{project.name}</h5>
+                                <p className="mb-1"><strong>Description:</strong> {project.description}</p>
+                                <p className="mb-0 text-muted"><strong>Date Created:</strong> {project.dateCreated}</p>
+                            </div>
+                            <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() => deleteProject(project.id)}
+                            >
+                                Delete
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 }
