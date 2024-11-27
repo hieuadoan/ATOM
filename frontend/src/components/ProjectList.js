@@ -30,7 +30,7 @@ function ProjectList() {
             name: newProject.name,
             description: newProject.description,
             dateCreated: new Date().toISOString().split('T')[0],
-            status: "Active",
+            status: "Active", // Default status
         };
 
         setProjects([...projects, newProjectData]);
@@ -42,6 +42,14 @@ function ProjectList() {
         if (window.confirm("Are you sure you want to delete this project?")) {
             setProjects(projects.filter((project) => project.id !== id));
         }
+    };
+
+    // Update project status
+    const updateProjectStatus = (id, newStatus) => {
+        const updatedProjects = projects.map((project) =>
+            project.id === id ? { ...project, status: newStatus } : project
+        );
+        setProjects(updatedProjects);
     };
 
     return (
@@ -87,14 +95,38 @@ function ProjectList() {
                             <div>
                                 <h5>{project.name}</h5>
                                 <p className="mb-1"><strong>Description:</strong> {project.description}</p>
-                                <p className="mb-0 text-muted"><strong>Date Created:</strong> {project.dateCreated}</p>
+                                <p className="mb-1 text-muted"><strong>Date Created:</strong> {project.dateCreated}</p>
+                                <p className="mb-1"><strong>Status:</strong> 
+                                    <span className={`badge ${
+                                        project.status === "Active"
+                                            ? "bg-success"
+                                            : project.status === "Completed"
+                                            ? "bg-primary"
+                                            : "bg-warning"
+                                    }`}>
+                                        {project.status}
+                                    </span>
+                                </p>
                             </div>
-                            <button
-                                className="btn btn-danger btn-sm"
-                                onClick={() => deleteProject(project.id)}
-                            >
-                                Delete
-                            </button>
+                            <div className="d-flex flex-column align-items-end">
+                                {/* Status Dropdown */}
+                                <select
+                                    className="form-select mb-2"
+                                    value={project.status}
+                                    onChange={(e) => updateProjectStatus(project.id, e.target.value)}
+                                >
+                                    <option value="Active">Active</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="On Hold">On Hold</option>
+                                </select>
+                                {/* Delete Button */}
+                                <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => deleteProject(project.id)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </li>
                     ))}
                 </ul>
