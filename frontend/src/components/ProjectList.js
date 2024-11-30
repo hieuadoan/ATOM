@@ -84,7 +84,10 @@ function ProjectList() {
 
             {/* List of Projects */}
             {projects.length === 0 ? (
-                <p className="text-muted">No projects found. Create a new project to get started!</p>
+				<div className="alert alert-info">
+					<h4 className="alert-heading">Welcome!</h4>
+                	<p className="text-muted">No projects found. Create a new project to get started!</p>
+				</div>
             ) : (
                 <ul className="list-group">
                     {projects.map((project) => (
@@ -96,12 +99,12 @@ function ProjectList() {
                                     <p className="mb-1 text-muted"><strong>Date Created:</strong> {project.dateCreated}</p>
                                     <p className="mb-1 text-muted"><strong>Last Updated:</strong> {project.lastUpdated}</p>
                                     <p className="mb-1"><strong>Status:</strong> 
-                                        <span className={`badge ${
+                                        <span className={`badge ms-1 ${
                                             project.status === "Active"
                                                 ? "bg-success"
                                                 : project.status === "Completed"
                                                 ? "bg-primary"
-                                                : "bg-warning"
+                                                : "bg-warning text-dark"
                                         }`}>
                                             {project.status}
                                         </span>
