@@ -8,8 +8,10 @@ function ProjectList() {
     });
 
     const [newProject, setNewProject] = useState({ name: "", description: "" });
-
-    useEffect(() => {
+	const [sortCriterion, setSortCriterion] = useState("date"); // Default sorting by date
+    const [filterCriterion, setFilterCriterion] = useState("All"); // Default filter to show all projects
+    
+	useEffect(() => {
         localStorage.setItem("projects", JSON.stringify(projects));
     }, [projects]);
 
@@ -49,9 +51,67 @@ function ProjectList() {
         setProjects(updatedProjects);
     };
 
+ 	// Sort projects based on the selected criterion
+    const sortProjects = (criterion) => {
+        const sortedProjects = [...projects].sort((a, b) => {
+            if (criterion === "name") {
+                return a.name.localeCompare(b.name);
+            }
+            if (criterion === "date") {
+                return new Date(a.dateCreated) - new Date(b.dateCreated);
+            }
+            if (criterion === "status") {
+                const statusOrder = { "Active": 1, "On Hold": 2, "Completed": 3 };
+                return statusOrder[a.status] - statusOrder[b.status];
+            }
+            return 0;
+        });
+
+        setProjects(sortedProjects);
+        setSortCriterion(criterion); // Save the current sorting criterion
+    };
+
+    // Filter projects based on the selected criterion
+    const filteredProjects = projects.filter((project) => {
+        if (filterCriterion === "All") return true;
+        return project.status === filterCriterion;
+    });
+
     return (
         <div className="container mt-4">
             <h2 className="mb-4">Projects</h2>
+			{/* Sorting and Filtering Controls */}
+            <div className="mb-3 d-flex">
+                <button
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "name" ? "active" : ""}`}
+                    onClick={() => sortProjects("name")}
+                >
+                    Sort by Name
+                </button>
+                <button
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "date" ? "active" : ""}`}
+                    onClick={() => sortProjects("date")}
+                >
+                    Sort by Date
+                </button>
+                <button
+                    className={`btn btn-outline-primary me-2 ${sortCriterion === "status" ? "active" : ""}`}
+                    onClick={() => sortProjects("status")}
+                >
+                    Sort by Status
+                </button>
+
+                <select
+                    className="form-select w-auto"
+                    value={filterCriterion}
+                    onChange={(e) => setFilterCriterion(e.target.value)}
+                >
+                    <option value="All">Show All</option>
+                    <option value="Active">Active</option>
+                    <option value="Completed">Completed</option>
+                    <option value="On Hold">On Hold</option>
+                </select>
+            </div>
 
             {/* Create New Project Form */}
             <form onSubmit={handleCreateProject} className="mb-4">
@@ -83,14 +143,18 @@ function ProjectList() {
             </form>
 
             {/* List of Projects */}
-            {projects.length === 0 ? (
+		
+			{projects.length === 0 ? (
 				<div className="alert alert-info">
-					<h4 className="alert-heading">Welcome!</h4>
-                	<p className="text-muted">No projects found. Create a new project to get started!</p>
+					<strong>Welcome!</strong> Please create a new project.
+				</div>
+			) : filteredProjects.length === 0 ? (
+				<div className="alert alert-warning">
+                	No projects match the filter criteria.
 				</div>
             ) : (
                 <ul className="list-group">
-                    {projects.map((project) => (
+                    {filteredProjects.map((project) => (
                         <li key={project.id} className="list-group-item">
                             <div className="d-flex justify-content-between">
                                 <div>
